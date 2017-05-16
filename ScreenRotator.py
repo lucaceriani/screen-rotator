@@ -9,8 +9,14 @@ from gi.repository import AppIndicator3 as AppIndicator
 APPINDICATOR_ID = "screenrotator"
 orientation = "normal"
 
+# TO FIND YOUR KEYBOARD NUMBER VISIT:
+# https://askubuntu.com/questions/160945/is-there-a-way-to-disable-a-laptops-internal-keyboard
+
+keyboard_number = "13"
+keyboard_group = "3"
+
 def main():
-    indicator = AppIndicator.Indicator.new(APPINDICATOR_ID, os.path.abspath('/home/fabio/.local/share/ScreenRotator/icon.svg'), AppIndicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = AppIndicator.Indicator.new(APPINDICATOR_ID, os.path.abspath('icon.svg'), AppIndicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
     indicator.set_menu(build_menu())
     Gtk.main()
@@ -85,10 +91,10 @@ def flip_screen(source):
     global orientation
     if orientation == "normal":
         direction = "inverted"
-        call(["xinput", "float", "13"]) #disabilito la tastiera
+        call(["xinput", "float", keyboard_number]) #disabilito la tastiera
     elif orientation == "inverted":
         direction ="normal"
-        call(["xinput", "reattach", "13", "3"]) #abilita tastiera
+        call(["xinput", "reattach", keyboard_number, keyboard_group]) #abilita tastiera
     call(["xrandr", "-o", direction])
     orientation = direction
 
